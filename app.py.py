@@ -9,10 +9,7 @@ st.set_page_config(
     layout="centered"
 )
 
-# ---------- SEU WHATSAPP (DESTINO) ----------
-SEU_NUMERO_WHATSAPP = "5511941161749"  # <-- ALTERE AQUI
-
-# ---------- FUNÇÃO PARA CONVERTER IMAGEM EM BASE64 ----------
+# ---------- FUNÇÃO BASE64 ----------
 def get_base64_image(image_path):
     with open(image_path, "rb") as img:
         return base64.b64encode(img.read()).decode()
@@ -48,6 +45,26 @@ h1, h2, h3, p, label {{
     color: white !important;
 }}
 
+.premium-btn {{
+    display: inline-block;
+    background: linear-gradient(135deg, #25D366, #1ebe5d);
+    color: white !important;
+    padding: 16px 28px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none !important;
+    margin-top: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+    transition: all 0.3s ease;
+}}
+
+.premium-btn:hover {{
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.45);
+    background: linear-gradient(135deg, #1ebe5d, #25D366);
+}}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -72,10 +89,7 @@ with st.form("form_retro"):
 
     plano = st.selectbox(
         "Plano escolhido",
-        [
-            "BÁSICO 49,90",
-            "COMPLETO 89,90",
-        ]
+        ["BÁSICO 49,90", "COMPLETO 89,90"]
     )
 
     tipo_retro = st.selectbox(
@@ -96,10 +110,12 @@ with st.form("form_retro"):
 
     enviar = st.form_submit_button("Enviar solicitação")
 
-# ---------- ENVIO DIRETO PARA WHATSAPP ----------
-if enviar and nome and whatsapp:
-    mensagem = f"""
-Nova solicitação - Meu Sonho em Retrospectiva
+# ---------- ENVIO PARA WHATSAPP ----------
+if enviar:
+    if nome and whatsapp:
+
+        mensagem = f"""
+NOVA SOLICITAÇÃO - MEU SONHO EM RETROSPECTIVA
 
 Nome: {nome}
 WhatsApp: {whatsapp}
@@ -110,14 +126,20 @@ Descrição:
 {descricao}
 """
 
-    mensagem_encoded = urllib.parse.quote(mensagem)
+        mensagem_codificada = urllib.parse.quote(mensagem)
 
-    link_whatsapp = f"https://wa.me/{SEU_NUMERO_WHATSAPP}?text={mensagem_encoded}"
+        numero_destino = "5511941161749"  # Ex: 5511999999999
 
-    st.markdown(
-        f'<meta http-equiv="refresh" content="0; url={link_whatsapp}">',
-        unsafe_allow_html=True
-    )
+        link_whatsapp = f"https://wa.me/{numero_destino}?text={mensagem_codificada}"
 
-elif enviar:
-    st.error("Por favor, preencha o nome e o WhatsApp para contato.")
+        st.markdown(
+            f"""
+            <a href="{link_whatsapp}" target="_blank" class="premium-btn">
+                Enviar solicitação pelo WhatsApp
+            </a>
+            """,
+            unsafe_allow_html=True
+        )
+
+    else:
+        st.error("Por favor, preencha o nome e o WhatsApp para contato.")
