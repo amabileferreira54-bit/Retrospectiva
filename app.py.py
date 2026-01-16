@@ -10,9 +10,12 @@ st.set_page_config(
 )
 
 # ---------- FUNÇÃO BASE64 ----------
+
+
 def get_base64_image(image_path):
     with open(image_path, "rb") as img:
         return base64.b64encode(img.read()).decode()
+
 
 bg_image = get_base64_image("fundo.jpg")
 
@@ -69,10 +72,11 @@ h1, h2, h3, p, label {{
 """, unsafe_allow_html=True)
 
 # ---------- CONTEÚDO ----------
-st.title("BÁSICO 49,90")
+st.title("🌙 Meu sonho em retrospectiva")
+st.title("Básico 49,90")
 st.write("60 fotos + 2 vídeos + 2 músicas")
 
-st.title("COMPLETO 89,90")
+st.title("Completo 89,90")
 st.write("120 fotos + 5 vídeos + 4 músicas")
 
 st.write("Transforme suas fotos e vídeos em uma retrospectiva emocionante, feita exatamente como você imaginou.")
